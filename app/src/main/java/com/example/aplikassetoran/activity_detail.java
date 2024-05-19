@@ -3,12 +3,12 @@ package com.example.aplikassetoran;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.util.Log;
 
-import java.util.List;
+import com.google.gson.Gson;
 
+import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,20 +40,27 @@ public class activity_detail extends AppCompatActivity {
         Call<List<HafalanSurah>> call = apiService.getSurahMahasiswa(nimMahasiswa);
 
         call.enqueue(new Callback<List<HafalanSurah>>() {
+
             @Override
             public void onResponse(Call<List<HafalanSurah>> call, Response<List<HafalanSurah>> response) {
                 if (response.isSuccessful()) {
                     hafalanSurahList = response.body();
-                    adapter = new HafalanSurahAdapter(hafalanSurahList);
-                    recyclerView.setAdapter(adapter);
+                    Log.d("activity_detail", "Response: " + new Gson().toJson(hafalanSurahList));
+                    if (hafalanSurahList != null && !hafalanSurahList.isEmpty()) {
+                        adapter = new HafalanSurahAdapter(hafalanSurahList);
+                        recyclerView.setAdapter(adapter);
+                    } else {
+                        Log.e("activity_detail", "No data found");
+                    }
                 } else {
                     Log.e("activity_detail", "Response not successful: " + response.errorBody());
                 }
             }
 
+
             @Override
             public void onFailure(Call<List<HafalanSurah>> call, Throwable t) {
-                t.printStackTrace();
+                Log.e("activity_detail", "Failed to get data: ", t);
             }
         });
     }

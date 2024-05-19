@@ -3,13 +3,13 @@ package com.example.aplikassetoran;
 import com.google.gson.annotations.SerializedName;
 
 public class Mahasiswa {
-    @SerializedName("NIM")
+    @SerializedName("nim")
     private String nim;
 
-    @SerializedName("Nama")
+    @SerializedName("nama")
     private String nama;
 
-    @SerializedName("Semester")
+    @SerializedName("semeter")
     private int semester;
 
     public Mahasiswa(String nim, String nama, int semester) {
